@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:14.1-alpine
+    # restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
+    ports:
+      - "5432:5432"
+    volumes: 
+      - ./postgres-data:/var/lib/postgresql
+
+#   api:
+#     container_name: quotes-api
+#     build:
+#       context: ./
+#       target: production
+#     image: quotes-api
+#     depends_on:
+#       - db
+#     ports:
+#       - 3000:3000
+#     environment:
+#       NODE_ENV: production
+#       DB_HOST: db
+#       DB_PORT: 5432
+#       DB_USER: postgres
+#       DB_PASSWORD: postgres
+#       DB_NAME: postgres
+#     links:
+#       - db
+#     volumes:
+#       - './:/src'
