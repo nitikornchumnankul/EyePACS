@@ -73,31 +73,34 @@ import { config } from 'process';
     }),
 
     // Database connection
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => {
-        return {
-          type: 'postgres',
-          host: configService.get('DB_HOST'),
-          port: configService.get('DB_PORT'),
-          username: configService.get('DB_USERNAME'),
-          password: configService.get('DB_PASSWORD'),
-          database: configService.get('DB_DATABASE'),
-          autoLoadEntities: true,
-          synchronize: true,
-        }
-      }
-    }),
-
-    // For Docker
-    // TypeOrmModule.forRoot({
-    //   type: "postgres",
-    //   synchronize: true,
-    //   autoLoadEntities: true,
-    //   url: process.env.DATABASE_URL // From env of Docker
+    // TypeOrmModule.forRootAsync({
+    //   imports: [ConfigModule],
+    //   inject: [ConfigService],
+    //   useFactory: async (configService: ConfigService) => {
+    //     return {
+    //       type: 'postgres',
+    //       host: configService.get('DB_HOST'),
+    //       port: configService.get('DB_PORT'),
+    //       username: configService.get('DB_USERNAME'),
+    //       password: configService.get('DB_PASSWORD'),
+    //       database: configService.get('DB_DATABASE'),
+    //       autoLoadEntities: true,
+    //       synchronize: true,
+    //     }
+    //   }
     // }),
 
+    // For Docker
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      synchronize: true,
+      autoLoadEntities: true,
+      url: process.env.DATABASE_URL, // From env of Docker
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+    }),
+   
     // Module
     ConfigModule,
     AuthModule,

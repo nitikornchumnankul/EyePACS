@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  web:
+    container_name: web
+    image: web:v1.0.0
+    ports:
+      - "80:80"
+  api:
+    container_name: api
+    image: api:v0.0.2
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./uploads/eye-photos:/uploads/eye-photos
