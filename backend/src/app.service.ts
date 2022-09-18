@@ -35,6 +35,8 @@ import { Table14Service } from './table-14/table-14.service';
 import { Table14Repository } from './table-14/table14.repository';
 import { CommentsService } from './comments/comments.service';
 import { CommentsRepository } from './comments/comments.repository';
+import { Table15Repository } from './table-15/table15.repository';
+import { Table15Service } from './table-15/table-15.service';
 
 @Injectable()
 export class AppService {
@@ -84,6 +86,9 @@ export class AppService {
     @InjectRepository(Table14Repository)
     private table14Repository: Table14Repository,
 
+    @InjectRepository(Table15Repository)
+    private table15Repository: Table15Repository,
+
     @InjectRepository(CommentsRepository)
     private commentRepository: CommentsRepository,
 
@@ -101,6 +106,7 @@ export class AppService {
     private table12Service: Table12Service,
     private table13Service: Table13Service,
     private table14Service: Table14Service,
+    private table15Service: Table15Service,
     private commentService: CommentsService,
 
     private configService: ConfigService,
@@ -122,6 +128,7 @@ export class AppService {
       await this.table12Service.deleteTable(eye_photo_id)
       await this.table13Service.deleteTable(eye_photo_id)
       await this.table14Service.deleteTable(eye_photo_id)
+      await this.table15Service.deleteTable(eye_photo_id)
       await this.commentService.deleteComment(eye_photo_id)
       return "success"
     } catch(e) {
@@ -205,6 +212,11 @@ export class AppService {
         .leftJoinAndSelect('table_14.eye_photo', 'eye_photo')
       const table_14 = await table_14_query.getMany()
 
+      // Table 15
+      const table_15_query = this.table15Repository.createQueryBuilder('table_15')
+        .leftJoinAndSelect('table_15.eye_photo', 'eye_photo')
+      const table_15 = await table_15_query.getMany()
+
       // Comment
       const comment_query = this.commentRepository.createQueryBuilder('comments')
         .leftJoinAndSelect('comments.eye_photo', 'eye_photo')
@@ -230,6 +242,7 @@ export class AppService {
             table_12: table_12[i].value,
             table_13: table_13[i].value,
             table_14: table_14[i].value,
+            table_15: table_15[i].value,
             eye_side: table_1[i].eye_photo.eyeside,
             comment: comments[i].description,
           }

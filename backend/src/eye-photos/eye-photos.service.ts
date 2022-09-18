@@ -6,6 +6,7 @@ import { EyePhotosRepository } from './eye-photos.repository';
 import * as fs from 'fs'
 import { UpdateEyeSideDto } from './dto/update-eyeside.dto';
 import { UpdateEyeStatusDto } from './dto/update-eye-status.dto';
+import { UpdateEyePhotoDto } from './dto/update-eye-photo.dto';
 
 @Injectable()
 export class EyePhotosService {
@@ -38,6 +39,8 @@ export class EyePhotosService {
             })
         }
     }
+ 
+    
 
     async getEyePhotoById(eye_photo_id: string): Promise<EyePhotos> {
         try {
@@ -97,6 +100,21 @@ export class EyePhotosService {
 
             const { status } = updateEyeStatusDto
             photo.status = status
+
+            return await this.eyePhotosRepository.save(photo)
+        } catch(e) {
+            throw new NotFoundException({
+                message: 'Error, Eye photo not found.'
+            })
+        }
+    }
+    async updateEyePhoto(eye_photo_id: string, updateEyeStatusDto: UpdateEyePhotoDto): Promise<EyePhotos> {
+        try {
+            const photo = await this.getEyePhotoById(eye_photo_id)
+
+            const { comments,remarks } = updateEyeStatusDto
+            photo.comments = comments
+            photo.remarks = remarks
 
             return await this.eyePhotosRepository.save(photo)
         } catch(e) {

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Request, StreamableFile, UseGuards, Response } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Request, StreamableFile, UseGuards, Response, Res } from '@nestjs/common';
 import { createReadStream } from 'fs';
 import { join } from 'path';
 import { AppService } from './app.service';
@@ -31,6 +31,12 @@ export class AppController {
       'Content-Disposition': `attachment; filename="${Date.now()}_eye_data.csv"`,
     })
     return new StreamableFile(file)
+  }
+  
+  @Get(':imgpath')
+  seeUploadedFile(@Param('imgpath') image, @Res() res) {
+    console.log(image);
+    return res.sendFile(image, { root: './retina' });
   }
 
   @UseGuards(LocalAuthGuard)

@@ -16,6 +16,11 @@ export class EyePhotos {
     @Column({ default: Status.inPorgress })
     status: Status
 
+    @Column({ default: '' })
+    comments: String
+
+    @Column({ default: false })
+    remarks: boolean
     @CreateDateColumn()
     created: Date
 }

@@ -42,6 +42,11 @@ import { Table14Module } from './table-14/table-14.module';
 import { Table14Repository } from './table-14/table14.repository';
 import { CommentsRepository } from './comments/comments.repository';
 import { config } from 'process';
+import { MulterModule } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { Table15Module } from './table-15/table-15.module';
+import path from 'path';
+import { Table15Repository } from './table-15/table15.repository';
 
 @Module({
   imports: [
@@ -63,6 +68,7 @@ import { config } from 'process';
       Table12Repository,
       Table13Repository,
       Table14Repository,
+      Table15Repository,
       CommentsRepository,
     ]),
 
@@ -89,6 +95,19 @@ import { config } from 'process';
     //     }
     //   }
     // }),
+    //Default image
+    MulterModule.register({
+      storage: diskStorage({
+        destination: function (req, file, cb) {
+          cb(null, './retina');
+        },
+        filename: function (req, file, cb) {
+          const filename: string = path.parse(file.originalname).name
+          const extension: string = path.parse(file.originalname).ext
+          cb(null,`${filename}${extension}`);
+        },
+      }),
+    }),
 
     // For Docker
     TypeOrmModule.forRoot({
@@ -120,7 +139,8 @@ import { config } from 'process';
     Table11Module,
     Table12Module,
     Table13Module,
-    Table14Module
+    Table14Module,
+    Table15Module
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Res, Uploaded
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
 import { SearchEyePhotosDto } from './dto/search-eye-photos.dto';
+import { UpdateEyePhotoDto } from './dto/update-eye-photo.dto';
 import { UpdateEyeStatusDto } from './dto/update-eye-status.dto';
 import { UpdateEyeSideDto } from './dto/update-eyeside.dto';
 import { EyePhotos } from './eye-photos.entity';
@@ -58,6 +59,15 @@ export class EyePhotosController {
         @Body() updateEyeStatusDto: UpdateEyeStatusDto,
     ): Promise<EyePhotos> {
         return this.eyePhotosService.updateEyeStatus(eye_photo_id, updateEyeStatusDto)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Patch(':eye_photo_id/update/eyephoto')
+    updateEyePhoto(
+        @Param('eye_photo_id') eye_photo_id: string,
+        @Body() updateEyePhotoDto: UpdateEyePhotoDto,
+    ): Promise<EyePhotos> {
+        return this.eyePhotosService.updateEyePhoto(eye_photo_id, updateEyePhotoDto)
     }
 
     @UseGuards(JwtAuthGuard)
