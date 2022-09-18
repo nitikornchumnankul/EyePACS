@@ -62,12 +62,20 @@ export class EyePhotosController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Patch(':eye_photo_id/update/eyephoto')
-    updateEyePhoto(
+    @Patch(':eye_photo_id/update/eyephoto-comments')
+    updateEyePhotoComments(
         @Param('eye_photo_id') eye_photo_id: string,
         @Body() updateEyePhotoDto: UpdateEyePhotoDto,
     ): Promise<EyePhotos> {
-        return this.eyePhotosService.updateEyePhoto(eye_photo_id, updateEyePhotoDto)
+        return this.eyePhotosService.updateEyePhotoComments(eye_photo_id, updateEyePhotoDto)
+    }
+    @UseGuards(JwtAuthGuard)
+    @Patch(':eye_photo_id/update/eyephoto-remarks')
+    updateEyePhotoRemarks(
+        @Param('eye_photo_id') eye_photo_id: string,
+        @Body() updateEyePhotoDto: UpdateEyePhotoDto,
+    ): Promise<EyePhotos> {
+        return this.eyePhotosService.updateEyePhotoRemarks(eye_photo_id, updateEyePhotoDto)
     }
 
     @UseGuards(JwtAuthGuard)

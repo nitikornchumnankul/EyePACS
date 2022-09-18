@@ -108,12 +108,25 @@ export class EyePhotosService {
             })
         }
     }
-    async updateEyePhoto(eye_photo_id: string, updateEyeStatusDto: UpdateEyePhotoDto): Promise<EyePhotos> {
+    async updateEyePhotoComments(eye_photo_id: string, updateEyeStatusDto: UpdateEyePhotoDto): Promise<EyePhotos> {
         try {
             const photo = await this.getEyePhotoById(eye_photo_id)
 
-            const { comments,remarks } = updateEyeStatusDto
+            const { comments } = updateEyeStatusDto
             photo.comments = comments
+
+            return await this.eyePhotosRepository.save(photo)
+        } catch(e) {
+            throw new NotFoundException({
+                message: 'Error, Eye photo not found.'
+            })
+        }
+    }
+    async updateEyePhotoRemarks(eye_photo_id: string, updateEyeStatusDto: UpdateEyePhotoDto): Promise<EyePhotos> {
+        try {
+            const photo = await this.getEyePhotoById(eye_photo_id)
+
+            const { remarks } = updateEyeStatusDto
             photo.remarks = remarks
 
             return await this.eyePhotosRepository.save(photo)
@@ -123,6 +136,7 @@ export class EyePhotosService {
             })
         }
     }
+
 
     async deleteEyePhoto(eye_photo_id: string): Promise<EyePhotos> {
         try {

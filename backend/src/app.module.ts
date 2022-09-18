@@ -96,17 +96,29 @@ import { Table15Repository } from './table-15/table15.repository';
     //   }
     // }),
     //Default image
-    MulterModule.register({
-      storage: diskStorage({
-        destination: function (req, file, cb) {
-          cb(null, './retina');
-        },
-        filename: function (req, file, cb) {
-          const filename: string = path.parse(file.originalname).name
-          const extension: string = path.parse(file.originalname).ext
-          cb(null,`${filename}${extension}`);
-        },
-      }),
+    MulterModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
+        return {
+          fileFilter: (req, file, cb) => {
+            if (file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/jpeg" || file.mimetype === "image/gif" || file.mimetype === "image/tiff") {
+              cb(null, true);
+            } else {
+              cb(null, false);
+            }
+          },
+          storage: diskStorage({
+            destination: configService.get('PHOTOS_PATH_DEFAULT'),
+            filename: (req, file, cb) => {
+              const filename: string = path.parse(file.originalname).name
+              const extension: string = path.parse(file.originalname).ext
+
+              cb(null, `${filename}${extension}`)
+            }
+          })
+        }
+      }
     }),
 
     // For Docker
