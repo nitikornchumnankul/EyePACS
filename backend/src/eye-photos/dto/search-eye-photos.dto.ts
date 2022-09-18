@@ -18,4 +18,8 @@ export class SearchEyePhotosDto {
     @IsOptional()
     @IsEnum(Sort)
     date_sort?: Sort
+    
+    @IsOptional()
+    @IsEnum(Sort)
+    remarks_sort?: Sort
 }

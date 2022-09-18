@@ -55,7 +55,7 @@ export class EyePhotosService {
 
     async getEyePhotos(searchEyePhotosDto: SearchEyePhotosDto): Promise<EyePhotos[]> {
         try {
-            const { name, status, status_sort, date_sort } = searchEyePhotosDto
+            const { name, status, status_sort, date_sort,remarks_sort } = searchEyePhotosDto
             const query = this.eyePhotosRepository.createQueryBuilder('eye_photos')
 
             if(name) {
@@ -70,6 +70,10 @@ export class EyePhotosService {
             if(status_sort) {
                 query.orderBy('eye_photos.status', `${status_sort}`)
             }
+            if(remarks_sort) {
+                query.orderBy('eye_photos.remarks',`${remarks_sort}`)
+            }
+            
 
             return await query.getMany()
         } catch(e) {

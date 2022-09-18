@@ -218,9 +218,9 @@ export class AppService {
       const table_15 = await table_15_query.getMany()
 
       // Comment
-      const comment_query = this.commentRepository.createQueryBuilder('comments')
-        .leftJoinAndSelect('comments.eye_photo', 'eye_photo')
-      const comments = await comment_query.getMany()
+      // const comment_query = this.commentRepository.createQueryBuilder('comments')
+      //   .leftJoinAndSelect('comments.eye_photo', 'eye_photo')
+      // const comments = await comment_query.getMany()
       
       const export_path = this.configService.get('EXPORT_PATH')
       let output: Eye[] = []
@@ -244,7 +244,7 @@ export class AppService {
             table_14: table_14[i].value,
             table_15: table_15[i].value,
             eye_side: table_1[i].eye_photo.eyeside,
-            comment: comments[i].description,
+            // comment: eyes[i].comments,
           }
         )
       }
