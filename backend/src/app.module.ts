@@ -75,7 +75,9 @@ import { Table15Repository } from './table-15/table15.repository';
     // Config
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: [`.env.stage.${process.env.STAGE}`]
+      // envFilePath: [`.env.stage.${process.env.STAGE}`]
+      envFilePath: [`.env`]
+
     }),
 
     // Database connection

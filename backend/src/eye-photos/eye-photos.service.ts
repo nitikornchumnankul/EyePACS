@@ -14,7 +14,6 @@ export class EyePhotosService {
         @InjectRepository(EyePhotosRepository)
         private eyePhotosRepository: EyePhotosRepository
     ) {}
-
     async uploadEyePhotos(files: Array<Express.Multer.File>): Promise<EyePhotos[]> {
         try {
             let photos: EyePhotos[] = []
@@ -23,12 +22,10 @@ export class EyePhotosService {
                     filename,
                     path,
                 } = files[i]
-
                 let photo = this.eyePhotosRepository.create({
                     eye_photo_id: filename,
                     path,
                 })
-
                 photos.push(photo)
             }
 
@@ -52,30 +49,39 @@ export class EyePhotosService {
             })
         }
     }
-
+  
     async getEyePhotos(searchEyePhotosDto: SearchEyePhotosDto): Promise<EyePhotos[]> {
         try {
             const { name, status, status_sort, date_sort,remarks_sort } = searchEyePhotosDto
             const query = this.eyePhotosRepository.createQueryBuilder('eye_photos')
+            const date_sort_defualt='DESC';
+            //  eye-photos
+            //  name: 
+            //  status: undefined
+            //  status_sort: ASC
+            //  date_sort: ASC
+            //  remarks_sort: ASC
+            //  if(name) {
+            //      query.where('(LOWER(eye_photos.eye_photo_id) LIKE LOWER(:name))', { name: `%${name}%` })
+            //  }
+            //  if(status) {
+            //      query.where('(eye_photos.status = UPPER(:status))', { status })
+            //      console.log(status)
+            //  }
+            if(remarks_sort=='ASC') {
+                 query.orderBy('eye_photos.remarks',`${remarks_sort}`)
 
-            if(name) {
-                query.where('(LOWER(eye_photos.eye_photo_id) LIKE LOWER(:name))', { name: `%${name}%` })
-            }
-            if(status) {
-                query.where('(eye_photos.status = UPPER(:status))', { status })
-            }
-            if(date_sort) {
-                query.orderBy('eye_photos.created', `${date_sort}`)
-            }
-            if(status_sort) {
-                query.orderBy('eye_photos.status', `${status_sort}`)
-            }
-            if(remarks_sort) {
+             }else if(remarks_sort=='DESC'){
                 query.orderBy('eye_photos.remarks',`${remarks_sort}`)
-            }
-            
-
+             }
+             
+             else{
+                // Default date (แก้กรณีที่หน้ามันเด้ง)
+                query.orderBy('eye_photos.created',`${date_sort_defualt}`)
+             }
+           
             return await query.getMany()
+
         } catch(e) {
             throw new NotFoundException({
                 message: 'Error, Eye photos are empty.'

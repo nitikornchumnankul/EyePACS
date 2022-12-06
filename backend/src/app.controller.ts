@@ -35,7 +35,6 @@ export class AppController {
   
   @Get(':imgpath')
   seeUploadedFile(@Param('imgpath') image, @Res() res) {
-    console.log(image);
     return res.sendFile(image, { root: './retina' });
   }
 
