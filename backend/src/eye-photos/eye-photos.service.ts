@@ -68,10 +68,26 @@ export class EyePhotosService {
             //      query.where('(eye_photos.status = UPPER(:status))', { status })
             //      console.log(status)
             //  }
-            if(remarks_sort=='ASC') {
+            // console.log("-------------------------------")
+            // console.log("date_sort=='ASC' && remarks_sort=='DESC'&& date_sort_defualt=='DESC'",date_sort=='ASC' && remarks_sort=='DESC'&& date_sort_defualt=='DESC')
+            // console.log("date_sort=='DESC'&& remarks_sort=='DESC'&& date_sort_defualt=='DESC'",date_sort=='DESC'&& remarks_sort=='DESC'&& date_sort_defualt=='DESC')
+            // console.log("remarks_sort=='ASC'&&date_sort=='DESC'&& date_sort_defualt=='DESC'",remarks_sort=='ASC'&&date_sort=='DESC'&& date_sort_defualt=='DESC')
+            // console.log("remarks_sort=='DESC'&&date_sort=='DESC'&& date_sort_defualt=='DESC'",remarks_sort=='DESC'&&date_sort=='DESC'&& date_sort_defualt=='DESC')
+            // console.log("-------------------------------")
+
+
+            // if(date_sort=='ASC' && remarks_sort=='DESC'&& date_sort_defualt=='DESC') {
+            //     query.orderBy('eye_photos.created',`${date_sort}`)
+
+            // }else if(date_sort=='DESC'&& remarks_sort!='DESC'&& date_sort_defualt=='DESC'){
+            //    query.orderBy('eye_photos.created',`${date_sort}`)
+            // }
+            
+             if(remarks_sort=='ASC'&&date_sort=='DESC'&& date_sort_defualt=='DESC') {
                  query.orderBy('eye_photos.remarks',`${remarks_sort}`)
 
-             }else if(remarks_sort=='DESC'){
+             }
+             else if(remarks_sort=='DESC'&&date_sort!='DESC'&& date_sort_defualt=='DESC'){
                 query.orderBy('eye_photos.remarks',`${remarks_sort}`)
              }
              
